@@ -1,0 +1,13 @@
+0 verbose cli C:\Users\shashwat.singh\Desktop\localLibrary\localLibrary\node.exe C:\Users\shashwat.singh\Desktop\localLibrary\localLibrary\node_modules\npm\bin\npm-cli.js
+1 info using npm@10.7.0
+2 info using node@v20.15.1
+3 silly config:load:file:C:\Users\shashwat.singh\Desktop\localLibrary\localLibrary\node_modules\npm\npmrc
+4 silly config:load:file:C:\Users\shashwat.singh\Desktop\localLibrary\localLibrary\.npmrc
+5 silly config:load:file:C:\Users\shashwat.singh\.npmrc
+6 silly config:load:file:C:\Users\shashwat.singh\Desktop\localLibrary\localLibrary\etc\npmrc
+7 verbose title npm
+8 verbose argv "--cache" "clean"
+9 verbose logfile logs-max:10 dir:C:\Users\shashwat.singh\Desktop\localLibrary\localLibrary\clean\_logs\2024-07-24T14_45_51_577Z-
+10 verbose logfile C:\Users\shashwat.singh\Desktop\localLibrary\localLibrary\clean\_logs\2024-07-24T14_45_51_577Z-debug-0.log
+11 verbose exit 1
+12 verbose code 1
