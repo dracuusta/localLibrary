@@ -11,7 +11,7 @@ const catalogRouter=require('./routes/catalog');
 const app = express();
 const mongoose=require("mongoose");
 mongoose.set("strictQuery",false);
-const mongoDB="mongodb+srv://admin:admin@cluster0.twvvaoe.mongodb.net/local_library?retryWrites=true&w=majority&appName=Cluster"
+const mongoDB="mongodb+srv://admin:admin@cluster0.twvvaoe.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
 main().catch((error)=>console.log(error));
 async function main(){
   await mongoose.connect(mongoDB);
