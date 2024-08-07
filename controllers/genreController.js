@@ -1,7 +1,7 @@
 const Genre = require("../models/genre");
 const asyncHandler = require("express-async-handler");
 const Book = require("../models/book");
-
+const  {body, validationResult}= require("express-validator")
 // Display list of all Genre.
 exports.genre_list = asyncHandler(async (req, res, next) => {
   const allGenres = await Genre.find().sort({ name: 1 }).exec();
@@ -34,14 +34,56 @@ exports.genre_detail = asyncHandler(async (req, res, next) => {
 
 
 // Display Genre create form on GET.
-exports.genre_create_get = asyncHandler(async (req, res, next) => {
-  res.send("NOT IMPLEMENTED: Genre create GET");
-});
+exports.genre_create_get = (req, res, next) => {
+  res.render("genre_form",{title:"Create Genre"})
+};
 
 // Handle Genre create on POST.
-exports.genre_create_post = asyncHandler(async (req, res, next) => {
-  res.send("NOT IMPLEMENTED: Genre create POST");
-});
+exports.genre_create_post = [
+    // validate and sanitize the name field
+    body("name","Genre must contain at least 3 characters")
+    .trim()
+    .isLength({min:3})
+    .escape(),
+
+
+    asyncHandler (async(req,res,next)=>{
+      //extract the validation errors from a request
+     const errors=validationResult(req);  
+
+     const genre=new Genre({name:req.body.name})
+
+
+     if(!errors.isEmpty()){
+        //the data is polluted, print the form again
+      res.render("genre_form",{
+        title:"Create genre",
+        genre: genre,
+        errors: errors.array(),
+      });
+      return;
+    }else 
+  
+    {
+      //Data form is valid
+      // Check if data with same name exists
+
+      const genreExists=await Genre.findOne({name:req.body.name})
+                                    .collation({locale:"en",strength:2}) 
+                                    .exec()
+
+      if(genreExists){
+        res.redirect(genreExists.url)
+      }
+      else{
+        await genre.save()
+
+        res.redirect(genre.url);
+      }
+    }
+    })
+]
+
 
 // Display Genre delete form on GET.
 exports.genre_delete_get = asyncHandler(async (req, res, next) => {
