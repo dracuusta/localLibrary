@@ -157,7 +157,7 @@ exports.book_create_post = [
 // Display book delete form on GET.
 exports.book_delete_get = asyncHandler(async (req, res, next) => {
   const [book,allBooksByInstance]=await Promise.all([
-    Book.findById(req.params.id).exec(),
+    Book.findById(req.params.id).populate("author").populate("genre").exec(),
     BookInstance.find({book:req.params.id},"status imprint").exec()
   ])
 
@@ -175,7 +175,7 @@ exports.book_delete_get = asyncHandler(async (req, res, next) => {
 // Handle book delete on POST.
 exports.book_delete_post = asyncHandler(async (req, res, next) => {
   const [book,allBooksByInstance]=await Promise.all([
-    Book.findById(req.params.id).exec(),
+    Book.findById(req.params.id).populate("author").populate("genre").exec(),
     BookInstance.find({book:req.params.id}).exec()
   ])
   if (book === null) {
