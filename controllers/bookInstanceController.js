@@ -4,7 +4,6 @@ const Book=require("../models/book")
 const {body,expressValidator, validationResult}=require("express-validator");
 const book = require("../models/book");
 // Display list of all BookInstances.
-// Display list of all BookInstances.
 exports.bookinstance_list = asyncHandler(async (req, res, next) => {
   const allBookInstances = await BookInstance.find().populate("book").exec()
 
@@ -18,7 +17,7 @@ exports.bookinstance_list = asyncHandler(async (req, res, next) => {
 
 // Display detail page for a specific BookInstance.
 exports.bookinstance_detail = asyncHandler(async (req, res, next) => {
-  const bookInstance = await BookInstance.findById(req.params.id)
+  const book= await BookInstance.findById(req.params.id)
     .populate("book")
     .exec();
 
@@ -135,9 +134,7 @@ exports.bookinstance_update_get = asyncHandler(async (req, res, next) => {
     bookinstance:bookInstance  
   })
 });
-
 // Handle bookinstance update on POST.
-  
 exports.bookinstance_update_post =[
   body("book", "Book must be specified").trim().isLength({ min: 1 }).escape(),
   body("imprint", "Imprint must be specified")
@@ -174,10 +171,6 @@ exports.bookinstance_update_post =[
         res.redirect(bookInstance.url)
       }
     }
-
-
-
   )
-  
 ]
 

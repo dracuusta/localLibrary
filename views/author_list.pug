@@ -8,6 +8,9 @@ block content
       each author in author_list
         li
           a(href=author.url) #{author.name}
-          |  (#{author.date_of_birth} - #{author.date_of_death})
+          if(author.date_of_death_yyyy_mm_dd!=null)
+            |(#{author.date_of_birth_yyyy_mm_dd} - #{author.date_of_death_yyyy_mm_dd})
+          else 
+            |(#{author.date_of_birth_yyyy_mm_dd})
   else
     p There are no authors.
