@@ -126,10 +126,61 @@ exports.genre_delete_post =asyncHandler(async(req,res,next)=>{
 
 // Display Genre update form on GET.
 exports.genre_update_get = asyncHandler(async (req, res, next) => {
-  res.send("NOT IMPLEMENTED: Genre update GET");
+  const genre=await Genre.findById(req.params.id).exec()
+
+  if(genre===null){
+    const err=new Error("No Genre found")
+    err.status=404;
+    return next(err);
+  }
+
+  res.render("genre_form",{
+    title:"Update Genre",
+    genre:genre
+  })
+
 });
 
 // Handle Genre update on POST.
-exports.genre_update_post = asyncHandler(async (req, res, next) => {
-  res.send("NOT IMPLEMENTED: Genre update POST");
-});
+exports.genre_update_post = [
+  body("name","The genre name must be at least 3 letters")
+  .trim()
+  .isLength({min:3})
+  .escape(),
+
+    asyncHandler (async(req,res,next)=>{
+      //extract the validation errors from a request
+     const errors=validationResult(req);  
+
+     const genre=new Genre({name:req.body.name})
+
+
+     if(!errors.isEmpty()){
+        //the data is polluted, print the form again
+      res.render("genre_form",{
+        title:"Update genre",
+        genre: genre,
+        errors: errors.array(),
+      });
+      return;
+    }else 
+  
+    {
+      //Data form is valid
+      // Check if data with same name exists
+
+      const genreExists=await Genre.findOne({name:req.body.name})
+                                    .collation({locale:"en",strength:2}) 
+                                    .exec()
+      if(genreExists){
+        res.redirect(genreExists.url)
+      }
+      else{
+        await genre.save()
+
+        res.redirect(genre.url);
+      }
+    }
+    })
+]
+
